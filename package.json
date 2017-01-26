@@ -1,0 +1,44 @@
+{
+  "name": "restful-mongoose-express",
+  "version": "0.1.0",
+  "description": "RESTfull APIs boilerplate in Node.js with Express and Mongoose",
+  "main": "dist",
+  "scripts": {
+    "dev": "nodemon -w src --exec \"babel-node src --presets es2015,stage-0\"",
+    "build": "babel src -s -D -d dist --presets es2015,stage-0",
+    "start": "node dist",
+    "prestart": "npm run -s build",
+    "test": "eslint src"
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true
+    }
+  },
+  "author": "Minsik Kim",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-core": "^6.22.1",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "eslint": "^3.13.0",
+    "eslint-config-airbnb-base": "^11.0.1",
+    "eslint-plugin-import": "^2.2.0",
+    "nodemon": "^1.11.0"
+  },
+  "dependencies": {
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.16.0",
+    "composable-middleware": "^0.3.0",
+    "cors": "^2.8.1",
+    "express": "^4.14.0",
+    "helmet": "^3.4.0",
+    "jsonwebtoken": "^7.2.1",
+    "mongoose": "^4.7.8",
+    "morgan": "^1.7.0",
+    "npm": "^4.1.1",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0"
+  }
+}
