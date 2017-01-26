@@ -4,8 +4,8 @@
   "description": "RESTfull APIs boilerplate in Node.js with Express and Mongoose",
   "main": "dist",
   "scripts": {
-    "dev": "nodemon -w src --exec \"babel-node src --presets es2015,stage-0\"",
-    "build": "babel src -s -D -d dist --presets es2015,stage-0",
+    "dev": "nodemon -w src --exec \"babel-node src\"",
+    "build": "babel src -d dist",
     "start": "node dist",
     "prestart": "npm run -s build",
     "test": "eslint src"
@@ -30,7 +30,6 @@
   "dependencies": {
     "bcrypt": "^1.0.2",
     "body-parser": "^1.16.0",
-    "composable-middleware": "^0.3.0",
     "cors": "^2.8.1",
     "express": "^4.14.0",
     "helmet": "^3.4.0",
