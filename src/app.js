@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import helmet from 'helmet';
 
+import errors from './helpers/error';
 import routes from './routes';
 
 
@@ -19,10 +20,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api', routes);
 
-app.use((err, req, res) =>
+app.use((req, res, next) => {
+  next(errors.notFound());
+});
+
+app.use((err, req, res, next) => {
   res.status(err.status).json({
     message: err.message,
-  }),
-);
+  });
+});
 
 export default app;

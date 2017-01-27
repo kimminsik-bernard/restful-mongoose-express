@@ -1,5 +1,6 @@
 import { DEBUG } from './../config';
 
+
 const errorCreator = (status = 500, message) => {
   const error = new Error();
   error.status = status;

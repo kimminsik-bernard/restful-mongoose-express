@@ -11,13 +11,9 @@ const signToken = _id => jwt.sign({ _id }, JWT_SECRET);
 
 const localStrategy = (username, password, done) => {
   User.findOne({ username }, (err, user) => {
-    if (err) { return done(err); }
-    if (!user) {
-      return done(null, false, { message: 'Incorrect username.' });
-    }
-    if (!user.validPassword(password)) {
-      return done(null, false, { message: 'Incorrect password.' });
-    }
+    if (err) return done(err);
+    if (!user) return done(null, false, { message: 'Incorrect username.' });
+    if (!user.validPassword(password)) return done(null, false, { message: 'Incorrect password.' });
     return done(null, user);
   });
 };
@@ -37,8 +33,7 @@ const create = (req, res, next) => {
   })(req, res, next);
 };
 
-// for debuging
-const validate = (req, res) => res.json({
+const validate = (req, res, next) => res.json({
   username: req.user.username,
   created: req.user.created,
   updated: req.user.updated,

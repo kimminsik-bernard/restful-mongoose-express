@@ -29,9 +29,13 @@ function validPassword(password) {
 }
 
 function setPassword(password) {
-  bcrypt.hash(password, ENCRYPT.saltRound)
-    .then((hash) => { this.password = hash; });
-  return this.save().then(user => user);
+  function savePassword(pass) {
+    this.password = pass;
+    return this.save().then(savedUser => savedUser);
+  }
+
+  return bcrypt.hash(password, ENCRYPT.saltRound)
+    .then(hash => savePassword(hash));
 }
 
 User.method({
