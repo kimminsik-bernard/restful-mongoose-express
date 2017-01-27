@@ -5,7 +5,7 @@ import User from './../models/user';
 import errors from './../helpers/error';
 
 
-export const jwtMiddleware = (req, res, next) => {
+export const jwtMiddleware = () => (req, res, next) => {
   req.user = { isAnonymous: true };
 
   const handleError = (err, doc) => {
@@ -25,9 +25,10 @@ export const jwtMiddleware = (req, res, next) => {
       .then((err, user) => handleError(err, user))
       .then(user => setUser(user));
   }
+  next();
 };
 
-export const authRequired = (req, res, next) => {
+export const authRequired = () => (req, res, next) => {
   if (req.user.isAnonymous) next(errors.unauthorized());
   next();
 };

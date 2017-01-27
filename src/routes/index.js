@@ -7,7 +7,7 @@ import { jwtMiddleware } from './../middlewares/auth';
 
 const router = express.Router();
 
-router.use(jwtMiddleware);
+router.use(jwtMiddleware());
 
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
