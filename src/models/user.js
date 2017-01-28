@@ -32,15 +32,15 @@ function validatePassword(password) {
 }
 
 function setPassword(password) {
+  bcrypt.hash(password, config.bcrypt.saltRound)
+    .then(hash => savePassword(hash));
+
   function savePassword(pass) {
     this.password = pass;
     return this.save()
       .then(savedUser => ((null, savedUser)))
       .catch(err => err);
   }
-
-  return bcrypt.hash(password, config.bcrypt.saltRound)
-    .then(hash => savePassword(hash));
 }
 
 User.method({
