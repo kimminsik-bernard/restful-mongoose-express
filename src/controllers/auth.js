@@ -10,12 +10,17 @@ import User from './../models/user';
 const signToken = _id => jwt.sign({ _id }, config.jwt.secret);
 
 const localStrategy = (username, password, done) => {
-  User.findOne({ username }, (err, user) => {
-    if (err) return done(err);
-    if (!user) return done(null, false, { message: 'Incorrect username.' });
-    if (!user.validPassword(password)) return done(null, false, { message: 'Incorrect password.' });
-    return done(null, user);
-  });
+  let user;
+  User.findOne({ username }).select('+password')
+    .then((doc) => {
+      user = doc;
+      return doc.validatePassword(password);
+    })
+    .catch(() => done(null, false, 'Incorrect username.'))
+    .then((valid) => {
+      if (!valid) return done(null, false, 'Incorrect password.');
+      return done(null, user);
+    });
 };
 
 const create = (req, res, next) => {

@@ -2,12 +2,12 @@ import bcrypt from 'bcrypt';
 
 import config from './../config';
 import User from './../models/user';
-import errors from './../helpers/error';
 
 
 const list = (req, res, next) => {
-  User.find((err, users) => users)
-    .then(users => res.json(users));
+  User.find()
+    .then(users => res.json(users))
+    .catch(err => next(err));
 };
 
 const create = (req, res, next) => {
@@ -24,20 +24,16 @@ const create = (req, res, next) => {
   };
 
   bcrypt.hash(req.body.password, config.bcrypt.saltRound)
-    .then(hash => createUser(req.body.username, hash));
+    .then(hash => createUser(req.body.username, hash))
+    .catch(err => next(err));
 };
 
 const retrieve = (req, res, next) => {
   const _id = req.params._id;
-  const handleError = (doc, err) => {
-    if (err) return next(err);
-    if (!doc) return next(errors.notFound());
-    return doc;
-  };
 
   User.findById(_id)
-    .then((doc, err) => handleError(doc, err))
-    .then(user => res.json(user));
+    .then(doc => res.json(doc))
+    .catch(err => next(err));
 };
 
 export default { list, create, retrieve };

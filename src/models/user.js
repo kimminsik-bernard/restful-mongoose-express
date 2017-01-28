@@ -13,6 +13,7 @@ const User = mongoose.Schema({
   },
   password: {
     type: String,
+    select: false,
   },
   email: {
     type: String,
@@ -24,14 +25,18 @@ const User = mongoose.Schema({
   },
 });
 
-function validPassword(password) {
-  return bcrypt.compare(password, this.password).then(result => result);
+function validatePassword(password) {
+  return bcrypt.compare(password, this.password)
+    .then(result => result)
+    .catch(() => false);
 }
 
 function setPassword(password) {
   function savePassword(pass) {
     this.password = pass;
-    return this.save().then(savedUser => savedUser);
+    return this.save()
+      .then(savedUser => ((null, savedUser)))
+      .catch(err => err);
   }
 
   return bcrypt.hash(password, config.bcrypt.saltRound)
@@ -39,7 +44,7 @@ function setPassword(password) {
 }
 
 User.method({
-  validPassword,
+  validatePassword,
   setPassword,
 });
 

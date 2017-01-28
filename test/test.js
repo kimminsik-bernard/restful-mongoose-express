@@ -50,7 +50,10 @@ describe('Authentication & User', () => {
   it('it should authenticate the user', (done) => {
     chai.request(app)
       .post('/api/auth')
-      .send(user)
+      .send({
+        username: 'taki',
+        password: 'michuha',
+      })
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.have.property('token');
