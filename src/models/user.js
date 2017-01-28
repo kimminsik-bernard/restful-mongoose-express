@@ -1,9 +1,11 @@
-import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import mongoose from 'mongoose';
 
 import config from './../config';
 import timestamp from './plugins/timestamp';
 
+
+// User schema
 const User = mongoose.Schema({
   username: {
     type: String,
@@ -25,12 +27,14 @@ const User = mongoose.Schema({
   },
 });
 
+// validate password.
 function validatePassword(password) {
   return bcrypt.compare(password, this.password)
     .then(result => result)
     .catch(() => false);
 }
 
+// set new password.
 function setPassword(password) {
   bcrypt.hash(password, config.bcrypt.saltRound)
     .then(hash => savePassword(hash));
@@ -43,11 +47,13 @@ function setPassword(password) {
   }
 }
 
+// add custom methods.
 User.method({
   validatePassword,
   setPassword,
 });
 
+// add custom plugins.
 User.plugin(timestamp);
 
 export default mongoose.model('User', User);

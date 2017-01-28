@@ -1,6 +1,7 @@
 import config from './../config';
 
 
+// create error
 const errorCreator = (status = 500, message) => {
   const error = new Error();
   error.status = status;
@@ -9,6 +10,7 @@ const errorCreator = (status = 500, message) => {
   return error;
 };
 
+// pre-defined errors
 const internalServerError = (message = 'Internal Server Error') => errorCreator(500, message);
 const notFound = (message = 'Not Found') => errorCreator(404, message);
 const forbidden = (message = 'Forbidden') => errorCreator(403, message);

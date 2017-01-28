@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+import mongoose from 'mongoose';
 
 import config from './../src/config';
 import app from './../src/app';
@@ -70,6 +70,15 @@ describe('Authentication & User', () => {
         res.should.have.status(200);
         res.body.should.have.property('token').not.eql(token);
         token = res.body.token;
+        return done();
+      });
+  });
+
+  it('it shoud respond unauthorized error when request without token', (done) => {
+    chai.request(app)
+      .get('/api/auth/refresh')
+      .end((err, res) => {
+        res.should.have.status(401);
         return done();
       });
   });

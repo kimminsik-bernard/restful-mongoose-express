@@ -4,17 +4,20 @@ import config from './../config';
 import User from './../models/user';
 
 
+// list users.
 const list = (req, res, next) => {
   User.find()
     .then(users => res.json(users))
     .catch(err => next(err));
 };
 
+// create new user.
 const create = (req, res, next) => {
+  // hashing password with bcrypt
   bcrypt.hash(req.body.password, config.bcrypt.saltRound)
-    .then(hash => createUser(req.body.username, hash))
-    .catch(err => next(err));
+    .then(hash => createUser(req.body.username, hash));
 
+  // create new user document with hashed password.
   function createUser(username, password) {
     const user = new User({
       username, password,
@@ -28,6 +31,7 @@ const create = (req, res, next) => {
   }
 };
 
+// retrieve user document
 const retrieve = (req, res, next) => {
   const _id = req.params._id;
 

@@ -7,6 +7,7 @@ import { jwtMiddleware } from './../middlewares/auth';
 
 const router = express.Router();
 
+// handle JWT in the request headers.
 router.use(jwtMiddleware());
 
 router.get('/', (req, res, next) => {
