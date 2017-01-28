@@ -1,8 +1,11 @@
+import config from './../config';
+
+
 const errorCreator = (status = 500, message) => {
   const error = new Error();
   error.status = status;
   error.message = message;
-  if (process.env.NODE_ENV === 'production') error.stack = null;
+  if (config.env === 'production') error.stack = null;
   return error;
 };
 
