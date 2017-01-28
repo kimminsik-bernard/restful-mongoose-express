@@ -9,7 +9,7 @@ const router = express.Router();
 router.route('/')
   .post(auth.create);
 
-router.route('/validate-token')
-  .get(authRequired(), auth.validateToken);
+router.route('/refresh')
+  .get(authRequired(), auth.refresh);
 
 export default router;

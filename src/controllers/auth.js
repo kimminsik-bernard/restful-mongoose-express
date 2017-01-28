@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import jwt from 'jsonwebtoken';
@@ -7,7 +8,11 @@ import errors from './../helpers/error';
 import User from './../models/user';
 
 
-const signToken = _id => jwt.sign({ _id }, config.jwt.secret);
+const signToken = (_id) => {
+  const rdk = crypto.randomBytes(16).toString('base64');
+  const options = { expiresIn: config.jwt.expiresIn };
+  return jwt.sign({ _id, rdk }, config.jwt.secret, options);
+};
 
 const localStrategy = (username, password, done) => {
   let user;
@@ -33,15 +38,14 @@ const create = (req, res, next) => {
     if (error) return next(errors.unauthorized(error));
     if (!user) return next(errors.notFound());
 
-    const token = signToken(user.id);
+    const token = signToken(user._id);
     return res.json({ token });
   })(req, res, next);
 };
 
-const validateToken = (req, res, next) => {
-  res.json({
-    _id: req.user._id,
-  });
+const refresh = (req, res, next) => {
+  const token = signToken(req.user._id);
+  return res.json({ token });
 };
 
-export default { create, validateToken };
+export default { create, refresh };

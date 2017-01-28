@@ -62,13 +62,14 @@ describe('Authentication & User', () => {
       });
   });
 
-  it('it shoud validate the user token', (done) => {
+  it('it shoud refresh the user token', (done) => {
     chai.request(app)
-      .get('/api/auth/validate-token')
+      .get('/api/auth/refresh')
       .set('Authorization', token)
       .end((err, res) => {
         res.should.have.status(200);
-        res.body.should.have.property('_id').eql(id);
+        res.body.should.have.property('token').not.eql(token);
+        token = res.body.token;
         return done();
       });
   });

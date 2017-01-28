@@ -11,27 +11,27 @@ const list = (req, res, next) => {
 };
 
 const create = (req, res, next) => {
-  const createUser = (username, password) => {
+  bcrypt.hash(req.body.password, config.bcrypt.saltRound)
+    .then(hash => createUser(req.body.username, hash))
+    .catch(err => next(err));
+
+  function createUser(username, password) {
     const user = new User({
       username, password,
     });
-    user.save()
+    return user.save()
       .then(savedUser => res.json({
         _id: savedUser._id,
         username: savedUser.username,
       }))
       .catch(err => next(err));
-  };
-
-  bcrypt.hash(req.body.password, config.bcrypt.saltRound)
-    .then(hash => createUser(req.body.username, hash))
-    .catch(err => next(err));
+  }
 };
 
 const retrieve = (req, res, next) => {
   const _id = req.params._id;
 
-  User.findById(_id)
+  return User.findById(_id)
     .then(doc => res.json(doc))
     .catch(err => next(err));
 };

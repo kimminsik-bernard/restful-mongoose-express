@@ -11,6 +11,7 @@ const config = {
   },
   jwt: {
     secret: process.env.JWT_SECERET || 'jwtscrete',
+    expiresIn: process.env.JWT_EXPIRES_IN || '7d',
   },
   bcrypt: {
     saltRound: parseInt(process.env.BCRYPT_SALT_ROUND, 10) || 10,
