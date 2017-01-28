@@ -1,7 +1,25 @@
-export const DEBUG = true;
-export const DB = 'mongodb://localhost/restful-express';
-export const PORT = 4000;
-export const JWT_SECRET = 'token_secret';
-export const ENCRYPT = {
-  saltRound: 10,
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+
+const config = {
+  env: process.env.NODE_ENV || 'development',
+  port: parseInt(process.env.PORT, 10) || 4000,
+  db: {
+    host: process.env.DB_HOST || 'mongodb://localhost/restful-express',
+  },
+  jwt: {
+    secret: process.env.JWT_SECERET || 'jwtscrete',
+  },
+  bcrypt: {
+    saltRound: parseInt(process.env.BCRYPT_SALT_ROUND, 10) || 10,
+  },
+  test: {
+    db: {
+      host: process.env.TEST_DB_HOST || 'mongodb://localhost/restful-express',
+    },
+  },
 };
+
+export default config;

@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 
-import { ENCRYPT } from './../config';
+import config from './../config';
 import User from './../models/user';
 import errors from './../helpers/error';
 
@@ -20,7 +20,7 @@ const create = (req, res, next) => {
       .catch(err => next(err));
   };
 
-  bcrypt.hash(req.body.password, ENCRYPT.saltRound)
+  bcrypt.hash(req.body.password, config.bcrypt.saltRound)
     .then(hash => createUser(req.body.username, hash));
 };
 

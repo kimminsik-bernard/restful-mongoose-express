@@ -1,11 +1,8 @@
-import { DEBUG } from './../config';
-
-
 const errorCreator = (status = 500, message) => {
   const error = new Error();
   error.status = status;
   error.message = message;
-  if (!DEBUG) error.stack = null;
+  if (process.env.NODE_ENV === 'production') error.stack = null;
   return error;
 };
 

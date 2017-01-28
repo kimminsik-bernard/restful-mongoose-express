@@ -2,12 +2,12 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import jwt from 'jsonwebtoken';
 
-import { JWT_SECRET } from './../config';
+import config from './../config';
 import errors from './../helpers/error';
 import User from './../models/user';
 
 
-const signToken = _id => jwt.sign({ _id }, JWT_SECRET);
+const signToken = _id => jwt.sign({ _id }, config.jwt.secret);
 
 const localStrategy = (username, password, done) => {
   User.findOne({ username }, (err, user) => {

@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
-import { ENCRYPT } from './../config';
+import config from './../config';
 import timestamp from './plugins/timestamp';
 
 const User = mongoose.Schema({
@@ -34,7 +34,7 @@ function setPassword(password) {
     return this.save().then(savedUser => savedUser);
   }
 
-  return bcrypt.hash(password, ENCRYPT.saltRound)
+  return bcrypt.hash(password, config.bcrypt.saltRound)
     .then(hash => savePassword(hash));
 }
 

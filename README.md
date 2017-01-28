@@ -4,20 +4,21 @@ A simple boilerplate application for building RESTful APIs in Node.js with Expre
 
 ## Features
 
-- ES6
-- Express
-- Mongoose
-- bcrypt
-- JSON Web Token
-- Live reloading
+- `ECMAScript 6` language standard
+- `Express` web framework
+- `mongoose` mongoDB object modeling
+- `passport` authentication middleware
+- `bcrypt` password hashing
+- `JSON Web Token` access control
+- `Mocha` & `Chai` test
+- `nodemon` live reload
 
 ## Run
 
-- `npm run dev`: run server in development mode, enabling live reload
-- `npm run build`: compile node-targeted build for production
-- `npm start`: run server with production build
-- `npm prestart`: run server with temporary production build
-- `npm test`: test code with eslint
+- `npm run dev` run server in development mode, enabling live reload
+- `npm run build` transpile for production
+- `npm run start` run server with production build
+- `npm run test` run mocha tests
 
 ## Milestones
 

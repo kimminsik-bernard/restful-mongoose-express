@@ -9,6 +9,10 @@ const router = express.Router();
 
 router.use(jwtMiddleware());
 
+router.get('/', (req, res, next) => {
+  res.send('Hello World!');
+});
+
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 

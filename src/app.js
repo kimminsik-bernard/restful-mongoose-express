@@ -4,13 +4,14 @@ import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import helmet from 'helmet';
 
+import config from './config';
 import errors from './helpers/error';
 import routes from './routes';
 
 
 const app = express();
 
-app.use(morgan('dev'));
+if (config.env === 'development') app.use(morgan('dev'));
 
 app.use(helmet());
 app.use(cors());

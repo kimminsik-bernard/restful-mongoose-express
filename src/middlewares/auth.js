@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-import { JWT_SECRET } from './../config';
+import config from './../config';
 import User from './../models/user';
 import errors from './../helpers/error';
 
@@ -20,7 +20,7 @@ export const jwtMiddleware = () => (req, res, next) => {
   };
 
   if (req.headers.authorization) {
-    const verified = jwt.verify(req.headers.authorization, JWT_SECRET);
+    const verified = jwt.verify(req.headers.authorization, config.jwt.secret);
     User.findOne({ _id: verified._id })
       .then((err, user) => handleError(err, user))
       .then(user => setUser(user));
