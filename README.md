@@ -29,10 +29,10 @@ PORT=8000
 DB_HOST=mongodb://localhost/database
 TEST_DB_HOST=mongodb://localhost/database-for-test
 JWT_SECRET=jasonwebtokensecret
+JWT_EXPIRES_IN=7d
 BCRYPT_SALT_ROUND=10
 ```
-See `/src/config.js` how it actually affects default values.
-
+See `/src/config.js` how it actually affects configuration.
 
 ## Run
 
