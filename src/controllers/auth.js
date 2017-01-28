@@ -33,10 +33,10 @@ const create = (req, res, next) => {
   })(req, res, next);
 };
 
-const validate = (req, res, next) => res.json({
-  username: req.user.username,
-  created: req.user.created,
-  updated: req.user.updated,
-});
+const validateToken = (req, res, next) => {
+  res.json({
+    _id: req.user._id,
+  });
+};
 
-export default { create, validate };
+export default { create, validateToken };

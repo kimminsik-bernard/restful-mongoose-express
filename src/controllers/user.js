@@ -16,7 +16,10 @@ const create = (req, res, next) => {
       username, password,
     });
     user.save()
-      .then(savedUser => res.json(savedUser))
+      .then(savedUser => res.json({
+        _id: savedUser._id,
+        username: savedUser.username,
+      }))
       .catch(err => next(err));
   };
 
@@ -26,14 +29,14 @@ const create = (req, res, next) => {
 
 const retrieve = (req, res, next) => {
   const _id = req.params._id;
-  const handleError = (err, doc) => {
+  const handleError = (doc, err) => {
     if (err) return next(err);
     if (!doc) return next(errors.notFound());
     return doc;
   };
 
-  User.findOne({ _id })
-    .then((err, doc) => handleError(err, doc))
+  User.findById(_id)
+    .then((doc, err) => handleError(doc, err))
     .then(user => res.json(user));
 };
 

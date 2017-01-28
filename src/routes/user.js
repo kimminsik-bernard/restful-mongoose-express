@@ -1,5 +1,6 @@
 import express from 'express';
 
+import { authRequired } from './../middlewares/auth';
 import user from './../controllers/user';
 
 
@@ -10,6 +11,6 @@ router.route('/')
   .post(user.create);
 
 router.route('/:_id')
-  .get(user.retrieve);
+  .get(authRequired(), user.retrieve);
 
 export default router;

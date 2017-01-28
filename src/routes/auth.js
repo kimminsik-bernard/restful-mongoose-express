@@ -1,7 +1,7 @@
 import express from 'express';
 
-import auth from './../controllers/auth';
 import { authRequired } from './../middlewares/auth';
+import auth from './../controllers/auth';
 
 
 const router = express.Router();
@@ -9,7 +9,7 @@ const router = express.Router();
 router.route('/')
   .post(auth.create);
 
-router.route('/validate')
-  .get(authRequired, auth.validate);
+router.route('/validate-token')
+  .get(authRequired(), auth.validateToken);
 
 export default router;
