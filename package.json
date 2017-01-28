@@ -11,6 +11,23 @@
   },
   "author": "Minsik Kim",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kimminsik-bernard/restful-mongoose-express.git"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "mongodb",
+    "mongoose",
+    "REST",
+    "API",
+    "boilerplate",
+    "mocha",
+    "bcrypt",
+    "JWT",
+    "es6"
+  ],
   "devDependencies": {
     "babel-cli": "^6.22.2",
     "babel-core": "^6.22.1",
