@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { authRequired } from './../middlewares/auth';
-import user from './../controllers/user';
+import user from './../controlers/user';
 
 
 const router = express.Router();
@@ -11,6 +11,6 @@ router.route('/')
   .post(user.create);
 
 router.route('/:_id')
-  .get(authRequired(), user.retrieve);
+  .get(authRequired, user.retrieve);
 
 export default router;

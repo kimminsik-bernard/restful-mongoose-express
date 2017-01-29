@@ -5,7 +5,7 @@ import errors from './../helpers/error';
 
 
 // verify JWT in the headers and assign decoded information to the request.
-export const jwtMiddleware = () => (req, res, next) => {
+export const jwtMiddleware = (req, res, next) => {
   if (req.headers.authorization) {
     jwt.verify(req.headers.authorization, config.jwt.secret, (err, decoded) => {
       if (err) next(errors.unauthorized());
@@ -18,7 +18,7 @@ export const jwtMiddleware = () => (req, res, next) => {
 };
 
 // require authentication.
-export const authRequired = () => (req, res, next) => {
+export const authRequired = (req, res, next) => {
   if (!req.user) next(errors.unauthorized());
   next();
 };
