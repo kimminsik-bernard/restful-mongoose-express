@@ -4,18 +4,18 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 
 import config from './../config';
-import errors from './../helpers/error';
+import errors from '../helpers/errors';
 import User from './../models/user';
 
 
-// Sign new JWT token.
+// sign new JWT.
 const signToken = (_id) => {
   const rdk = crypto.randomBytes(16).toString('base64');
   const options = { expiresIn: config.jwt.expiresIn };
   return jwt.sign({ _id, rdk }, config.jwt.secret, options);
 };
 
-// Strategy for passport middleware.
+// strategy for passport middleware.
 const localStrategy = (username, password, done) => {
   let user;
   User.findOne({ username }).select('+password') // explicitly expose `password`.
@@ -30,7 +30,7 @@ const localStrategy = (username, password, done) => {
     });
 };
 
-// Create new authentication token with passport middleware.
+// create JWT with passport middleware.
 const create = (req, res, next) => {
   passport.use(new LocalStrategy(
     (username, password, done) => localStrategy(username, password, done),
@@ -46,7 +46,7 @@ const create = (req, res, next) => {
   })(req, res, next);
 };
 
-// Refresh authentication token.
+// refresh JWT.
 const refresh = (req, res, next) => {
   const token = signToken(req.user._id);
   return res.json({ token });

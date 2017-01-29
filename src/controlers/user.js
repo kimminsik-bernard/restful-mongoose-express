@@ -23,10 +23,7 @@ const create = (req, res, next) => {
       username, password,
     });
     return user.save()
-      .then(savedUser => res.json({
-        _id: savedUser._id,
-        username: savedUser.username,
-      }))
+      .then(savedUser => res.json(savedUser))
       .catch(err => next(err));
   }
 };

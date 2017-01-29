@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 import config from './../config';
-import errors from './../helpers/error';
+import errors from '../helpers/errors';
 
 
 // verify JWT in the headers and assign decoded information to the request.

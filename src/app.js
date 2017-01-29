@@ -5,7 +5,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 
 import config from './config';
-import errors from './helpers/error';
+import errors from './helpers/errors';
 import routes from './routes';
 
 
