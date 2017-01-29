@@ -28,22 +28,22 @@ const User = mongoose.Schema({
 });
 
 // validate password.
-function validatePassword(password) {
+function validatePassword(password, callback) {
   return bcrypt.compare(password, this.password)
-    .then(result => result)
-    .catch(() => false);
+    .then(result => callback(result))
+    .catch(() => callback(false));
 }
 
 // set new password.
-function setPassword(password) {
+function setPassword(password, callback) {
   bcrypt.hash(password, config.bcrypt.saltRound)
     .then(hash => savePassword(hash));
 
   function savePassword(pass) {
     this.password = pass;
     return this.save()
-      .then(savedUser => ((null, savedUser)))
-      .catch(err => err);
+      .then(savedUser => callback(savedUser))
+      .catch(err => callback(null, err));
   }
 }
 

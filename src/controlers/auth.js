@@ -19,15 +19,16 @@ const signToken = (_id) => {
 const localStrategy = (username, password, done) => {
   let user;
   User.findOne({ username }).select('+password') // explicitly expose `password`.
-    .then((doc) => {
-      user = doc;
-      return user.validatePassword(password); // validatePassword method returns a promise.
+    .then((_user) => {
+      user = _user;
+      user.validatePassword(password, handleValid); // validatePassword method returns a promise.
     })
-    .catch(() => done(null, false, 'Incorrect username.')) // cannot find the doc with given username.
-    .then((valid) => { // resolved validation
-      if (!valid) return done(null, false, 'Incorrect password.');
-      return done(null, user);
-    });
+    .catch(() => done(null, false, 'Incorrect username.')); // cannot find the doc with given username.
+
+  function handleValid(valid) { // resolved validation
+    if (!valid) return done(null, false, 'Incorrect password.');
+    return done(null, user);
+  }
 };
 
 // create JWT with passport middleware.

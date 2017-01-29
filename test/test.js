@@ -62,7 +62,7 @@ describe('Authentication & User', () => {
       });
   });
 
-  it('it shoud refresh the user token', (done) => {
+  it('it should refresh the user token', (done) => {
     chai.request(app)
       .get('/api/auth/refresh')
       .set('Authorization', token)
@@ -74,7 +74,7 @@ describe('Authentication & User', () => {
       });
   });
 
-  it('it shoud respond unauthorized error when request without token', (done) => {
+  it('it should respond unauthorized error when request without token', (done) => {
     chai.request(app)
       .get('/api/auth/refresh')
       .end((err, res) => {
@@ -83,7 +83,7 @@ describe('Authentication & User', () => {
       });
   });
 
-  it('it shoud retrieve the user data', (done) => {
+  it('it should retrieve the user data', (done) => {
     chai.request(app)
       .get(`/api/users/${id}`)
       .set('Authorization', token)
