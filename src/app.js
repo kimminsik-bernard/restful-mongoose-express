@@ -1,4 +1,5 @@
 import bodyParser from 'body-parser';
+import compression from 'compression';
 import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
@@ -14,6 +15,8 @@ const app = express();
 // logging http requests.
 if (config.env === 'development') app.use(morgan('dev'));
 
+// gzip response
+app.use(compression());
 // protect server from request headers.
 app.use(helmet());
 // enable CORS.
