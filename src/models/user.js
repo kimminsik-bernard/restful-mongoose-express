@@ -3,7 +3,9 @@ import bluebird from 'bluebird';
 import mongoose from 'mongoose';
 
 import config from './../config';
-import timestamp from './plugins/timestamp';
+import errors from './../helpers/errors';
+import timestampPlugin from './plugins/timestamp';
+import passwordPlugin from './plugins/password';
 
 
 // User schema
@@ -16,6 +18,7 @@ const User = mongoose.Schema({
   },
   password: {
     type: String,
+    required: true,
     select: false,
   },
   email: {
@@ -32,7 +35,10 @@ const User = mongoose.Schema({
 function validatePassword(password, callback) {
   return bcrypt.compare(password, this.password)
     .catch(err => callback(err, false))
-    .then(result => callback(null, result));
+    .then((result) => {
+      if (!result) return callback(errors.unauthorized(), false);
+      return callback(null, result);
+    });
 }
 
 // set new password.
@@ -55,6 +61,7 @@ User.method({
 });
 
 // add custom plugins.
-User.plugin(timestamp);
+User.plugin(passwordPlugin);
+User.plugin(timestampPlugin);
 
 export default mongoose.model('User', User);

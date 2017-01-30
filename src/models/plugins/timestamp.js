@@ -6,7 +6,7 @@ const timestampPlugin = (schema, options) => {
   schema.pre('save', function (next) {
     this.updated = new Date();
     if (!this.created) this.created = new Date();
-    next();
+    return next();
   });
 
   if (options && options.index) {

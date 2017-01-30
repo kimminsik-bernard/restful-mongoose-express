@@ -1,11 +1,5 @@
-import bcrypt from 'bcrypt';
-import bluebird from 'bluebird';
-
-import config from './../config';
 import User from './../models/user';
 
-
-bluebird.promisifyAll(bcrypt);
 
 // list users.
 const list = (req, res, next) => {
@@ -16,19 +10,11 @@ const list = (req, res, next) => {
 
 // create new user.
 const create = (req, res, next) => {
-  // hashing password with bcrypt
-  bcrypt.hashAsync(req.body.password, config.bcrypt.saltRound)
-    .then(hash => createUser(req.body.username, hash));
+  const user = new User(req.body);
 
-  // create new user document with hashed password.
-  function createUser(username, password) {
-    const user = new User({
-      username, password,
-    });
-    return user.save()
-      .catch(err => next(err))
-      .then(savedUser => res.json(savedUser));
-  }
+  return user.save()
+    .catch(err => next(err))
+    .then(savedUser => res.json(savedUser));
 };
 
 // retrieve user document
