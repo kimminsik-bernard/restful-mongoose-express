@@ -1,12 +1,14 @@
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
-import passport from 'passport';
-import { Strategy as LocalStrategy } from 'passport-local';
+import { Passport } from 'passport';
+import LocalStrategy from 'passport-local';
 
 import config from './../config';
 import errors from '../helpers/errors';
 import User from './../models/user';
 
+
+const passport = new Passport();
 
 // sign new JWT.
 const signToken = (_id) => {
