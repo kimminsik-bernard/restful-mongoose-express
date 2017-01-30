@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import bluebird from 'bluebird';
 import mongoose from 'mongoose';
 
 import config from './../config';
@@ -30,8 +31,8 @@ const User = mongoose.Schema({
 // validate password.
 function validatePassword(password, callback) {
   return bcrypt.compare(password, this.password)
-    .then(result => callback(result))
-    .catch(() => callback(false));
+    .catch(err => callback(err, false))
+    .then(result => callback(null, result));
 }
 
 // set new password.
@@ -42,15 +43,15 @@ function setPassword(password, callback) {
   function savePassword(pass) {
     this.password = pass;
     return this.save()
-      .then(savedUser => callback(savedUser))
-      .catch(err => callback(null, err));
+      .catch(err => callback(err, null))
+      .then(savedUser => callback(null, savedUser));
   }
 }
 
 // add custom methods.
 User.method({
-  validatePassword,
-  setPassword,
+  validatePassword: bluebird.promisify(validatePassword),
+  setPassword: bluebird.promisify(setPassword),
 });
 
 // add custom plugins.
