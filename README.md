@@ -12,13 +12,14 @@ A simple boilerplate application for building RESTful APIs in Node.js with Expre
 - `JSON Web Token` access control
 - `bluebird` promise library
 - `Mocha` & `Chai` test
+- `webpack` module bundler
 - `nodemon` live reload
 - `dotenv` managing environment variables
 
 ## Scripts
 
 - `npm run dev` run server in development mode, enabling live reload
-- `npm run build` transpile for production
+- `npm run build` compile for production
 - `npm run start` run server with production build
 - `npm run test` run mocha tests
 
