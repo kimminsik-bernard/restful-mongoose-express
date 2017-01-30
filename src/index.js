@@ -1,3 +1,4 @@
+import bluebird from 'bluebird';
 import mongoose from 'mongoose';
 
 import config from './config';
@@ -5,7 +6,7 @@ import app from './app';
 
 
 // use ES6 Promise in mongoose.
-mongoose.Promise = global.Promise;
+mongoose.Promise = bluebird;
 
 // connect mongoDB.
 mongoose.connect(config.db.host, { server: { socketOptions: { keepAlive: 1 } } });

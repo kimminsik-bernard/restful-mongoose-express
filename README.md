@@ -10,6 +10,7 @@ A simple boilerplate application for building RESTful APIs in Node.js with Expre
 - `passport` authentication middleware
 - `bcrypt` password hashing
 - `JSON Web Token` access control
+- `bluebird` promise library
 - `Mocha` & `Chai` test
 - `nodemon` live reload
 - `dotenv` managing environment variables

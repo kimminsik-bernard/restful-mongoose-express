@@ -1,17 +1,13 @@
-import jwt from 'jsonwebtoken';
-
 import config from './../config';
 import errors from '../helpers/errors';
-
+import jwt from '../helpers/jwt';
 
 // verify JWT in the headers and assign decoded information to the request.
 export const jwtMiddleware = (req, res, next) => {
   if (req.headers.authorization) {
-    jwt.verify(req.headers.authorization, config.jwt.secret, (err, decoded) => {
-      if (err) next(errors.unauthorized());
-      req.user = decoded;
-      next();
-    });
+    jwt.verify(req.headers.authorization, config.jwt.secret)
+      .then((decoded) => { req.user = decoded; next(); })
+      .catch(() => next(errors.unauthorized()));
   } else {
     next();
   }

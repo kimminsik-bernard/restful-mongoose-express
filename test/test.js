@@ -1,3 +1,4 @@
+import bluebird from 'bluebird';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import mongoose from 'mongoose';
@@ -9,7 +10,7 @@ import app from './../src/app';
 chai.should();
 chai.use(chaiHttp);
 
-mongoose.Promise = global.Promise;
+mongoose.Promise = bluebird;
 mongoose.connect(
   config.test.db.host, { server: { socketOptions: { keepAlive: 1 } } },
   () => mongoose.connection.db.dropDatabase(),

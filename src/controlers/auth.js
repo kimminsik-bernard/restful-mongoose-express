@@ -1,20 +1,19 @@
-import crypto from 'crypto';
-import jwt from 'jsonwebtoken';
 import { Passport } from 'passport';
 import LocalStrategy from 'passport-local';
 
 import config from './../config';
-import errors from '../helpers/errors';
+import crypto from './../helpers/crypto';
+import errors from './../helpers/errors';
+import jwt from './../helpers/jwt';
 import User from './../models/user';
-
 
 const passport = new Passport();
 
 // sign new JWT.
 const signToken = (_id) => {
-  const rdk = crypto.randomBytes(16).toString('base64');
   const options = { expiresIn: config.jwt.expiresIn };
-  return jwt.sign({ _id, rdk }, config.jwt.secret, options);
+  return crypto.randomBytes(16)
+    .then(buf => jwt.sign({ _id, rdk: buf.toString('hex') }, config.jwt.secret, options));
 };
 
 // strategy for passport middleware.
@@ -39,20 +38,23 @@ const create = (req, res, next) => {
     (username, password, done) => localStrategy(username, password, done),
   ));
 
-  passport.authenticate('local', (err, user, info) => {
-    const error = err || info;
+  passport.authenticate('local', (_err, user, info) => {
+    const error = _err || info;
     if (error) return next(errors.unauthorized(error));
     if (!user) return next(errors.notFound());
 
-    const token = signToken(user._id);
-    return res.json({ token, user });
+    return signToken(user._id)
+      .then(token => res.json({ token, user }))
+      .catch(err => next(err));
   })(req, res, next);
 };
 
 // refresh JWT.
 const refresh = (req, res, next) => {
-  const token = signToken(req.user._id);
-  return res.json({ token });
+  const _id = req.user._id;
+  return signToken(_id)
+    .then(token => res.json({ token }))
+    .catch(err => next(err));
 };
 
 export default { create, refresh };
