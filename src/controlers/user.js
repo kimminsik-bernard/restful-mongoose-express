@@ -26,4 +26,13 @@ const retrieve = (req, res, next) => {
     .then(doc => res.json(doc));
 };
 
-export default { list, create, retrieve };
+// retrieve user document
+const update = (req, res, next) => {
+  const _id = req.params._id;
+
+  return User.findOneAndUpdate({ _id }, req.body, { new: true })
+    .catch(err => next(err))
+    .then(doc => res.json(doc));
+};
+
+export default { list, create, retrieve, update };

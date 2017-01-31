@@ -31,6 +31,7 @@ describe('Authentication & User', () => {
   const user = {
     username: 'taki',
     password: 'michuha',
+    email: 'your@name.com',
   };
   let token;
   let id;
@@ -91,7 +92,21 @@ describe('Authentication & User', () => {
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.have.property('username').eql(user.username);
+        res.body.should.have.property('email').eql(user.email);
         res.body.should.have.property('_id').eql(id);
+        return done();
+      });
+  });
+
+  it('it should update the user data', (done) => {
+    const email = 'kimino@nawa.com';
+    chai.request(app)
+      .patch(`/api/users/${id}`)
+      .set('Authorization', token)
+      .send({ email })
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have.property('email').eql(email);
         return done();
       });
   });

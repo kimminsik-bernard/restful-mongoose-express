@@ -11,6 +11,7 @@ router.route('/')
   .post(user.create);
 
 router.route('/:_id')
-  .get(authRequired, user.retrieve);
+  .get(authRequired, user.retrieve)
+  .patch(authRequired, user.update);
 
 export default router;
