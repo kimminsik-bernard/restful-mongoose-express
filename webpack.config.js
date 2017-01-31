@@ -7,24 +7,31 @@ module.exports = {
   entry: './src/index.js',
   output: {
     path: __dirname,
-    filename: 'dist/index.js'
+    filename: 'dist/index.js',
   },
   module: {
+    preLoaders: [
+      {
+        test: /\.js$/,
+        loader: 'eslint-loader',
+        exclude: /node_modules/,
+      },
+    ],
     loaders: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          presets: ['es2015', 'stage-0']
-        }
-      }
-    ]
+          presets: ['es2015', 'stage-0'],
+        },
+      },
+    ],
   },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin()
+    new webpack.optimize.UglifyJsPlugin(),
   ],
-  devtool: 'sourcemap'
+  devtool: 'sourcemap',
 };

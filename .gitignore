@@ -176,3 +176,6 @@ Temporary Items
 
 # Exclude VS Code settings
 .vscode
+
+# Exclude dotenv file
+.env
